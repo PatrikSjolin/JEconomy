@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Import";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Import values</h1>
+    <p>Copy complete rows from your bank's transaction list</p>
+    
+    using (Html.BeginForm("Import", "Home"))
+    {
+        @Html.DropDownList("bank");
+    @Html.TextBox("data");
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Import")'">Import</button>
+    }
+
+    if (ViewBag.InputValues != null)
+    {
+        <br /><br />
+        <h3>You successfully loaded some values...</h3>
+        @*<button class="btn btn-default" onclick="location.href='@Url.Action("Import")'">Save values</button>*@
+        <br /><br />
+        <table class="table table-striped table-hover">
+            <tr>
+                <th>Date</th>
+                <th>Store</th>
+                <th>Cost</th>
+                <th>Balance</th>
+                <th>Category</th>
+                <th>State</th>
+            </tr>
+            @foreach (var val in ViewBag.InputValues.Transactions)
+            {
+                string state = "success";
+                if (val.State == "Duplicate")
+                {
+                    state = "danger";
+                }
+                else if (val.State == "Missing Category")
+                {
+                    state = "warning";
+                }
+                <tr class="@state">
+                    <td>
+                        @val.TransactionDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @val.Place
+                    </td>
+                    <td>
+                        @val.Value sek
+                    </td>
+                    <td>
+                        @val.Balance sek
+                    </td>
+                    <td>
+                        @if (val.Category == "Misc")
+                        {
+                            @Html.DropDownList("categories");
+
+                            <p>
+                                <a href="#" onclick="bootbox.prompt('Enter a new category and press ok', function (result)
+{
+    //alert(result);
+    //$.ajax({
+    //    url: 'Import'
+    //})
+});">Add new ...</a>
+                            </p>
+                        }
+                        else
+                        {
+                            @val.Category
+                        }
+                    </td>
+                    <td>
+                        @val.State
+                    </td>
+                </tr>
+            }
+        </table>
+        <hr />
+        <p>The operation took @ViewBag.InputValues.TimeElapsed.Seconds,@ViewBag.InputValues.TimeElapsed.Milliseconds s</p>
+    }
+}
+else
+{
+    <h1>Welcome to JEconomy</h1>
+    <p>Register an account to get going</p>
+}

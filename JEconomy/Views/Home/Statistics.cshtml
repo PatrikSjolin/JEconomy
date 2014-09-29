@@ -1,0 +1,42 @@
+﻿@using JEconomy.Models;
+@{
+    ViewBag.Title = "Statistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Statistics</h2>
+<br />
+
+@foreach (MonthSummaryViewModel monthSummary in ViewBag.MonthSummaries)
+{
+    <h3>@monthSummary.Year @monthSummary.MonthName</h3>
+    <hr />
+    foreach (CategorySummary something in monthSummary.CategorySummaries.OrderBy(x => x.Category))
+    {
+        if (something.SubCategorySummaries != null)
+        {
+            <table>
+                <tr>
+                    <td>
+                        <h4>@something.Category.Split(new string[] { " - " }, StringSplitOptions.None).ToList()[0] @((int)something.Value) sek</h4>
+                    </td>
+                </tr>
+                
+                @foreach (SubCategorySummary catSummary in something.SubCategorySummaries)
+                {
+                    <tr>
+                        <td>
+                            <p style="margin-left: 15px">@catSummary.Category @((int)catSummary.Value) sek</p>
+                        </td>
+                    </tr>
+                    
+                }
+            </table>
+        }
+        else
+        {
+            <h4>@something.Category: @((int)something.Value) sek</h4>
+        }
+    }
+    <br />
+}
