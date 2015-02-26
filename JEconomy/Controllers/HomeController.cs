@@ -61,6 +61,7 @@ namespace JEconomy.Controllers
             return Redirect(url);
         }
 
+        [ValidateInput(false)]
         public ActionResult Import(string data, string bank, string save)
         {
             DateTime start = DateTime.Now;
@@ -231,8 +232,8 @@ namespace JEconomy.Controllers
         {
             ApplicationDbContext context = new ApplicationDbContext();
 
-            string usedId = User.Identity.GetUserId();
-            List<Transaction> transactions = context.Transactions.Where(x => x.IdentityUser.Id == usedId).ToList();
+            string userId = User.Identity.GetUserId();
+            List<Transaction> transactions = context.Transactions.Where(x => x.IdentityUser.Id == userId).ToList();
 
             List<MonthSummaryViewModel> summaries = new List<MonthSummaryViewModel>();
 
@@ -346,8 +347,9 @@ namespace JEconomy.Controllers
         public ActionResult Categories()
         {
             ApplicationDbContext context = new ApplicationDbContext();
+            string userId = User.Identity.GetUserId();
 
-            ViewBag.Categories = context.Categories.OrderBy(x => x.Name);
+            ViewBag.Categories = context.Categories.Where(x => x.IdentityUser.Id == userId).OrderBy(x => x.Name);
 
             return View();
         }
