@@ -48,6 +48,7 @@ namespace JEconomy.Controllers
             ApplicationDbContext context = new ApplicationDbContext();
 
             string userId = User.Identity.GetUserId();
+
             List<Transaction> transactions = context.Transactions.Where(x => x.Place == transaction).ToList();
 
             foreach (Transaction trans in transactions)
