@@ -18,10 +18,13 @@
     {
         if (something.SubCategorySummaries != null)
         {
-            <table>
+            <table width="300" border="0">
                 <tr>
                     <td>
-                        <h4>@something.Category.Split(new string[] { " - " }, StringSplitOptions.None).ToList()[0] @((int)something.Value) sek</h4>
+                        <h4>@something.Category.Split(new string[] { " - " }, StringSplitOptions.None).ToList()[0]</h4>
+                    </td>
+                    <td align="right">
+                        <h4>@((int)something.Value) sek</h4>
                     </td>
                 </tr>
                 
@@ -29,7 +32,10 @@
                 {
                     <tr>
                         <td>
-                            <p style="margin-left: 15px">@catSummary.Category @((int)catSummary.Value) sek</p>
+                            @catSummary.Category
+                        </td>
+                        <td align="right">
+                            @((int)catSummary.Value) sek
                         </td>
                     </tr>
                     
@@ -41,5 +47,6 @@
             <h4>@something.Category: @((int)something.Value) sek</h4>
         }
     }
+    <br />
     <br />
 }
