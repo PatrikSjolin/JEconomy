@@ -184,6 +184,10 @@
     <Compile Include="Migrations\201408130811214_RemovingKeyFromCategory.Designer.cs">
       <DependentUpon>201408130811214_RemovingKeyFromCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511010952301_Adding-SkipCategory.cs" />
+    <Compile Include="Migrations\201511010952301_Adding-SkipCategory.Designer.cs">
+      <DependentUpon>201511010952301_Adding-SkipCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -278,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408130811214_RemovingKeyFromCategory.resx">
       <DependentUpon>201408130811214_RemovingKeyFromCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511010952301_Adding-SkipCategory.resx">
+      <DependentUpon>201511010952301_Adding-SkipCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

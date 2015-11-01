@@ -15,8 +15,15 @@ namespace JEconomy.Migrations
 
         protected override void Seed(JEconomy.Models.ApplicationDbContext context)
         {
-            context.Database.ExecuteSqlCommand("delete from Transactions");
-            context.Database.ExecuteSqlCommand("delete from Categories");
+            //context.Database.ExecuteSqlCommand("delete from Transactions");
+            //context.Database.ExecuteSqlCommand("delete from Categories");
+            context.Categories.Add(new Category
+            {
+                Global = true,
+                Id = Guid.NewGuid(),
+                IdentityUser = null,
+                Name = "Skip"
+            });
             //context.Categories.Add(new Category
             //{
             //    Id = Guid.NewGuid(),

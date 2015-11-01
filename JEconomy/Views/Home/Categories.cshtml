@@ -8,6 +8,5 @@
 
 @foreach (Category category in ViewBag.Categories)
 {
-    <p>@category.Name @Html.ActionLink("Remove", "RemoveCategory", "Home", new { id = category.Id }, null)</p>
-    
+    <p>@category.Name @Html.ActionLink("Remove", "RemoveCategory", "Home", new { id = category.Id }, null)</p>   
 }

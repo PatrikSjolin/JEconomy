@@ -13,5 +13,6 @@ namespace JEconomy.Models
         public string Place { get; set; }
         public string State { get; set; }
         public string Category { get; set; }
+        public Guid Id { get; internal set; }
     }
 }

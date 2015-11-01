@@ -9,6 +9,7 @@ namespace JEconomy.Models
         [Key]
         public Guid Id { get; set; }
         public virtual IdentityUser IdentityUser { get; set; }
+        public bool Global { get; set; }
         public string Name { get; set; }
     }
 }

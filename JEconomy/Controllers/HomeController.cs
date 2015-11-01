@@ -47,12 +47,23 @@ namespace JEconomy.Controllers
         {
             ApplicationDbContext context = new ApplicationDbContext();
 
+            Guid transactionId = new Guid(transaction);
             string userId = User.Identity.GetUserId();
-            List<Transaction> transactions = context.Transactions.Where(x => x.Place == transaction).ToList();
 
-            foreach (Transaction trans in transactions)
+            Transaction tran = context.Transactions.Where(x => x.Id == transactionId).First();
+
+            if (category == "Skip")
             {
-                trans.Category = context.Categories.FirstOrDefault(x => x.Name == category);
+                tran.Category = context.Categories.FirstOrDefault(x => x.Name == category);
+            }
+            else
+            {
+                List<Transaction> transactions = context.Transactions.Where(x => x.Place == tran.Place).ToList();
+
+                foreach (Transaction trans in transactions)
+                {
+                    trans.Category = context.Categories.FirstOrDefault(x => x.Name == category);
+                }
             }
 
             context.SaveChanges();
@@ -233,7 +244,7 @@ namespace JEconomy.Controllers
             ApplicationDbContext context = new ApplicationDbContext();
 
             string userId = User.Identity.GetUserId();
-            List<Transaction> transactions = context.Transactions.Where(x => x.IdentityUser.Id == userId).ToList();
+            List<Transaction> transactions = context.Transactions.Where(x => x.IdentityUser.Id == userId && x.Category.Name != "Skip").ToList();
 
             List<MonthSummaryViewModel> summaries = new List<MonthSummaryViewModel>();
 
@@ -425,6 +436,7 @@ namespace JEconomy.Controllers
                         Balance = transaction.Balance,
                         Category = transaction.Category == null ? string.Empty : transaction.Category.Name,
                         Place = transaction.Place,
+                        Id = transaction.Id,
                         TransactionDate = transaction.TransactionDate,
                         Value = transaction.Value
                     });
@@ -440,7 +452,7 @@ namespace JEconomy.Controllers
         {
             KeyValuePair<string, object> categories = new KeyValuePair<string, object>("categories", (object)new List<SelectListItem>());
             string userId = User.Identity.GetUserId();
-            foreach (Category category in context.Categories.Where(x => x.IdentityUser.Id == userId).OrderBy(x => x.Name))
+            foreach (Category category in context.Categories.Where(x => x.IdentityUser.Id == userId || x.Global).OrderBy(x => x.Name))
             {
                 ((List<SelectListItem>)categories.Value).Add(new SelectListItem { Text = category.Name, Value = category.Name });
             }
