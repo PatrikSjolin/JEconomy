@@ -9,7 +9,10 @@
 
 @foreach (MonthSummaryViewModel monthSummary in ViewBag.MonthSummaries)
 {
+    <hr />
     <h3>@monthSummary.Year @monthSummary.MonthName</h3>
+    <p>Incoming: @monthSummary.CategorySummaries.Where(x => x.Value > 0).Sum(x => x.Value)</p>
+    <p>Outcoming: @monthSummary.CategorySummaries.Where(x => x.Value < 0).Sum(x => x.Value)</p>
     <hr />
     foreach (CategorySummary something in monthSummary.CategorySummaries.OrderBy(x => x.Category))
     {
