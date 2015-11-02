@@ -37,6 +37,7 @@ namespace JEconomy.Controllers
             });
 
             context.SaveChanges();
+            //ChangeCategory(category, )
 
             string urlol = Request.UrlReferrer.AbsolutePath;
             return Redirect(urlol);
