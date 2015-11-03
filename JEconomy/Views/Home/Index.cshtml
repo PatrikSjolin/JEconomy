@@ -107,11 +107,10 @@
                                 return;
                             }
                         })">Add new category</a>
-                        <br /><br />
-                        Change Category
+                        <br />
                         <br />
                         @{ var id = Guid.NewGuid().ToString(); }
-                        @Html.DropDownList("categories", null, "-- select new --", new { id = "categorydropdown" + id, onchange = "MyFunction('" + @val.Id + "', '" + id + "')", @class = "form-control" })
+                        @Html.DropDownList("categories", null, "-- Change Category --", new { id = "categorydropdown" + id, onchange = "MyFunction('" + @val.Id + "', '" + id + "')", @class = "form-control" })
                     </td>
                 </tr>
                             }
