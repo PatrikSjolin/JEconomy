@@ -29,6 +29,7 @@
             <p> Go to @Html.ActionLink("Import", "Import", "Home") to start importing some values.</p>
             return;
         }
+
         <h1>Your summary</h1>
 
         <p>Total spending: @transactions.Where(x => x.Value < 0).Sum(x => x.Value) sek</p>
@@ -37,9 +38,7 @@
         <hr />
         <p>Period: @transactions.Min(x => x.TransactionDate).ToShortDateString() - @transactions.Max(x => x.TransactionDate).ToShortDateString()</p>
 
-
         @*@Html.ActionLink("Remove all", "RemoveTransactions", "Home", new { }, new { @class = "btn btn-primary" });*@
-
 
         <h1>Your transactions</h1>
         <table class="table table-striped table-hover" id="@Guid.NewGuid()" data-sort-name="date" data-sort-order="desc" data-toggle="table">
@@ -48,9 +47,9 @@
                     <th data-field="date" data-sortable="true">Date</th>
                     <th data-field="store" data-sortable="true">Store</th>
                     <th data-field="cost" data-sortable="true">Cost</th>
-                    <th data-field="balance" data-sortable="true">Balance</th>
+                    <th data-field="balance" data-sortable="true">Current Balance</th>
                     <th data-field="category" data-sortable="true">Category</th>
-                    <th data-field="actions">Actions</th>
+                    <th data-field="actions">Category Actions</th>
                 </tr>
             </thead>
             @foreach (var val in transactions.OrderByDescending(x => x.TransactionDate))
@@ -92,35 +91,41 @@
                         }
                     </td>
                     <td>
-                        <a style="cursor:pointer" onclick="bootbox.prompt('Enter new category', function (result) {
-                            if (result) {
-                                $.ajax({
-                                    url: 'Home/AddCategory',
-                                    type: 'POST',
-                                    contentType: 'application/json;',
-                                    data: JSON.stringify({ category: result }),
-                                });
-                                setTimeout(function () { document.location.reload() }, 400);
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        })">Add new category</a>
-                        <br />
-                        <br />
-                        @{ var id = Guid.NewGuid().ToString(); }
-                        @Html.DropDownList("categories", null, "-- Change Category --", new { id = "categorydropdown" + id, onchange = "MyFunction('" + @val.Id + "', '" + id + "')", @class = "form-control" })
+                        <div class="container">
+                            <div class="col-md-7">
+
+                                @{ var id = Guid.NewGuid().ToString(); }
+                                @Html.DropDownList("categories", null, "Change Category", new { id = "categorydropdown" + id, onchange = "MyFunction('" + @val.Id + "', '" + id + "')", @class = "form-control" })
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-info" role="button" style="cursor:pointer" onclick="bootbox.prompt('Enter new category', function (result) {
+                                    if (result) {
+                                        $.ajax({
+                                            url: 'Home/AddCategory',
+                                            type: 'POST',
+                                            contentType: 'application/json;',
+                                            data: JSON.stringify({ category: result }),
+                                        });
+                                        setTimeout(function () { document.location.reload() }, 400);
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                })">Add New
+                                </a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
-                            }
+                }
         </table>
         <hr />
         <p>The operation took @ViewBag.InputValues.TimeElapsed.Seconds,@ViewBag.InputValues.TimeElapsed.Milliseconds s</p>
-                                }
-                            }
-                            else
-                            {
-                                <h1>Welcome to JEconomy</h1>
-                                <p>Please register an account to start optimizing your spendings.</p>
-                            }
+    }
+}
+else
+{
+    <h1>Welcome to JEconomy</h1>
+    <p>Please register an account to start optimizing your spendings.</p>
+}
